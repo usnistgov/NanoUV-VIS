@@ -1,7 +1,3 @@
----
-output:
-  html_document: default
----
 # NanoUV-VIS
 
 > An interactive visualization tool for monitoring the evolution of optical properties of nanoparticles throughout synthesis reactions.
@@ -42,7 +38,7 @@ Click in **About** tab to see an overview of the application, describing the way
 In the following gif you will find some quick instructions to run *NanoUV-VIS* using an example data set. Also, you can click [here]() to watch a complete version of the instructional video.
 
 <p align="center">
-[![Demo CountPages alpha](https://j.gifs.com/Bgw7No.gif)](https://youtu.be/MXxKNJtJSqo)
+[![gif](https://j.gifs.com/Bgw7No.gif)](https://www.youtube.com/watch?v=MXxKNJtJSqo)
 </p>
 
 # Contributions
