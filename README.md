@@ -37,13 +37,11 @@ Click in **About** tab to see an overview of the application, describing the way
 
 In the following gif you will find some quick instructions to run *NanoUV-VIS* using an example data set. Also, you can click [here]() to watch a complete version of the instructional video.
 
-<p align="center">
 [![gif](https://j.gifs.com/Bgw7No.gif)](https://www.youtube.com/watch?v=MXxKNJtJSqo)
-</p>
 
 # Contributions
 Any suggestions or contributions to this project (comments, questions, typo corrections, etc.) are more than welcome! You can do it directly on this GitHub repository or mail to <gabriel.sarmanho@nist.gov> and <bryan.calderonjimenez@nist.gov>.
 
 # License
-This software was developed under [NIST](https://www.nist.gov/) license. Click [here](C:/Users/gfs/Desktop/LICENSE.md) to read it.
+This software was developed under [NIST](https://www.nist.gov/) license. Click [here](LICENSE.md) to read it.
 
