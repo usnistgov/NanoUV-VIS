@@ -9,7 +9,7 @@
 #labY=label_y
 #labX=label_x[my_i]
 
-plot_spec <- function(ZZ, UV, labY, labX){
+plot_spec <- function(ZZ, UV, labX, labY, unX, unY){
   # inputs
   spec       <- ZZ
   min_y      <- as.numeric(UV["Abs_min"])
@@ -31,13 +31,13 @@ plot_spec <- function(ZZ, UV, labY, labX){
                       wl=as.numeric(labY))[order(labY), ]
   
   # Text in legentes (hover)
-  hover_text0 <- paste("<b>Wavelength:</b> ", dados$wl, " a.u.<br>",
-                      "<b>Absorbance:</b> ", dados$spec, " nm", sep="")
-  hover_text1 <- paste("<b>Wavelength:</b> ", round(intersec_x, 2), " a.u.<br>",
-                       "<b>Absorbance:</b> ", round(c(half_h, half_h), 4), " nm", sep="")
-  hover_text2 <- paste("<b>Wavelength:</b> ", max_x, " a.u.<br>",
-                       "<b>Absorbance:</b> ", max_y, " nm", sep="")
-  hover_text3 <- paste("<b>FWHM:</b> ", round(FWHM, 2), " nm", sep="")
+  hover_text0 <- paste("<b>Wavelength:</b> ", dados$wl, " ", unY, "<br>",
+                      "<b>Absorbance:</b> ", dados$spec, sep="")
+  hover_text1 <- paste("<b>Wavelength:</b> ", round(intersec_x, 2), " ", unY, "<br>",
+                       "<b>Absorbance:</b> ", round(c(half_h, half_h), 4), sep="")
+  hover_text2 <- paste("<b>Wavelength:</b> ", max_x, " ", unY, "<br>",
+                       "<b>Absorbance:</b> ", max_y, sep="")
+  hover_text3 <- paste("<b>FWHM:</b> ", round(FWHM, 2), " ", unY, sep="")
   
   # Plot
   plot_ly(dados, x=~wl) %>%
@@ -53,16 +53,16 @@ plot_spec <- function(ZZ, UV, labY, labX){
               y=rep(half_h, 100),
               mode="lines", line=list(color=plot_colors[3], width=4),
               hoverinfo="text", text=hover_text3, showlegend=FALSE) %>%
-    layout(title=paste("Time = ", labX, " (min)"), showlegend=FALSE,
-           #yaxis=list(title="Wavelength (nm)"), xaxis=list(title="Absorbance (a.u.)"),
-           yaxis=list(title=""), xaxis=list(title=""),
+    layout(title=paste("Time = ", labX, " (", unX, ")", sep=""),
+           showlegend=FALSE, yaxis=list(title=""), xaxis=list(title=""),
            annotations=list(
              list(xref="x", yref="y", 
                   x=intersec_x[2]*1.4, y=half_h, showarrow=FALSE, align="right",
                   text=hover_text3, font=list(size=15, color=plot_colors[3]),
                   showarrow=TRUE),
              list(xref="x", yref="y", x=max_x, y=max_y, text="SPR peak",
-                  align="right", showarrow = TRUE, arrowhead = 100, col=plot_colors[2])
+                  align="right", showarrow = TRUE, arrowhead=100,
+                  col=plot_colors[2])
            )
     )
 }
