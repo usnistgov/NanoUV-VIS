@@ -126,12 +126,14 @@ shinyServer(function(input, output) {
           # Option 1: Unique file #
           #-----------------------#
           RV$arq_names      <- input$file1$datapath
-          RV$dados          <- read.csv(RV$arq_names, sep=",", dec=".", header=TRUE) 
+          RV$dados          <- read.csv(RV$arq_names, sep=",", dec=".",
+                                        header=TRUE) 
           RV$unities        <- c(input$unit_x, input$unit_y, input$unit_z) 
           names(RV$unities) <- c("Time", "Wavelength", "Absorbance")
           
           # Create label vectors
-          RV$label_x <- as.numeric(gsub(pattern="X", replacement="", x=names(RV$dados)[-1]))
+          RV$label_x <- as.numeric(gsub(pattern="X", replacement="",
+                                        x=names(RV$dados)[-1]))
           RV$label_y <- RV$dados[, 1]
           
           # Create data matrix
@@ -183,7 +185,8 @@ shinyServer(function(input, output) {
           RV$zz_rev <- RV$zz[order(RV$label_y), ]
           
           # Customize "zz_table"
-          RV$unit_name   <- paste(c("time-", "wave-", "abs-"), RV$unities, sep="", collapse="_")
+          RV$unit_name   <- paste(c("time-", "wave-", "abs-"), RV$unities,
+                                  sep="", collapse="_")
           RV$zz_tab_name <- paste("zz_table_(", RV$unit_name, ").csv", sep="")
           
           # Constants
@@ -211,7 +214,8 @@ shinyServer(function(input, output) {
           plotname <- paste("plot", my_i, sep="")
           output[[plotname]] <- renderPlotly({
             plot_spec(ZZ=RV$zz[, my_i], UV=FWHM$uvvis_data[my_i, ],
-                      labY=RV$label_y, labX=RV$label_x[my_i])
+                      labX=RV$label_x[my_i], labY=RV$label_y,
+                      unX=RV$unities[1], unY=RV$unities[2])
           })
         })
       }
@@ -308,10 +312,11 @@ shinyServer(function(input, output) {
       
       # Create matrix with showed names when click (hover)
       f_pasteXY <- function(x, y){
-        paste("Time: ", x, " min", "<br>Wavelength: ", y, " a.u.", sep="")
+        paste("Time: ", x, " ", RV$unities[1],
+              "<br>Wavelength: ", y, " ", RV$unities[2], sep="")
       }
       hover_surface1 <- outer(RV$label_x, rev(RV$label_y), FUN=f_pasteXY)
-      hover_surface2 <- paste("<br>Absorbance: ", t(RV$zz_rev), " nm", sep="")
+      hover_surface2 <- paste("<br>Absorbance: ", t(RV$zz_rev), sep="")
       hover_surface  <- matrix(paste(hover_surface1, hover_surface2, sep=""),
                                ncol=length(RV$label_y))
       
@@ -319,13 +324,15 @@ shinyServer(function(input, output) {
       font_labels <- list(size=10, family="Arial, sans-serif", color="grey")
       font_ticks  <- list(size=11, family="Arial, sans-Old Standard TT, serif", color="black")
       x_breaks <- hist(RV$label_x, plot=FALSE)$breaks
-      x_axis   <- list(title="Time (min)", tickmode="array", 
+      x_axis   <- list(title=paste("Time (", RV$unities[1], ")", sep=""),
+                       tickmode="array", 
                        tickvals=c(0, which(RV$label_x %in% x_breaks)-1), 
                        ticktext=c(RV$label_x[1], RV$label_x[which(RV$label_x %in% x_breaks)]),
                        tickwidth=0.2, ticklen=10, tickangle=0, zeroline=FALSE,
                        titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE) 
       y_breaks <- hist(rev(RV$label_y), plot=FALSE)$breaks
-      y_axis    <- list(title="Wavelenght (nm)", tickmode="array", ticktext=y_breaks,
+      y_axis    <- list(title=paste("Wavelenght (", RV$unities[2], ")", sep=""),
+                        tickmode="array", ticktext=y_breaks,
                         tickvals=which(rev(RV$label_y) %in% y_breaks)-1,
                         tickwidth=0.2, ticklen=2, tickangle=0,
                         titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE) 
@@ -369,10 +376,11 @@ shinyServer(function(input, output) {
       
       # Create matrix with showed names when click (hover)
       f_pasteXY <- function(x, y){
-        paste("Time: ", x, " min", "<br>Wavelength: ", y, " a.u.", sep="")
+        paste("Time: ", x, " ", RV$unities[1],
+              "<br>Wavelength: ", y, " ", RV$unities[2], sep="")
       }
       hover_surface1 <- outer(RV$label_x, rev(RV$label_y), FUN=f_pasteXY)
-      hover_surface2 <- paste("<br>Absorbance: ", t(RV$zz_rev), " nm", sep="")
+      hover_surface2 <- paste("<br>Absorbance: ", t(RV$zz_rev), sep="")
       hover_surface  <- matrix(paste(hover_surface1, hover_surface2, sep=""),
                                ncol=length(RV$label_y))
       
@@ -380,13 +388,15 @@ shinyServer(function(input, output) {
       font_labels <- list(size=13, family="Arial, sans-serif", color="grey")
       font_ticks  <- list(size=13, family="Arial, sans-Old Standard TT, serif", color="black")
       x_breaks <- hist(RV$label_x, plot=FALSE)$breaks
-      x_axis   <- list(title="Time (min)", tickmode="array", 
+      x_axis   <- list(title=paste("Time (", RV$unities[1], ")", sep=""),
+                       tickmode="array", 
                        tickvals=c(0, which(RV$label_x %in% x_breaks)-1), 
                        ticktext=c(RV$label_x[1], RV$label_x[which(RV$label_x %in% x_breaks)]),
                        tickwidth=0.2, ticklen=10, tickangle=0, zeroline=FALSE,
                        titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE) 
       y_breaks <- hist(rev(RV$label_y), plot=FALSE)$breaks
-      y_axis   <- list(title="Wavelenght (nm)", tickmode="array", ticktext=y_breaks,
+      y_axis   <- list(title=paste("Wavelenght (", RV$unities[2], ")", sep=""),
+                       tickmode="array", ticktext=y_breaks,
                        tickvals=which(rev(RV$label_y) %in% y_breaks)-1,
                        tickwidth=0.2, ticklen=2, tickangle=0,
                        titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE)
@@ -414,8 +424,8 @@ shinyServer(function(input, output) {
   )
   
   #----------------------------------------------------------------------------#
-  # TAB: "FWHM-Stats" (Line plots of FWHM statistics on same x-axis) #
-  #------------------------------------------------------------------#
+  # TAB: "FWHM-Stats" (Line graphs of FWHM statistics on same x-axis) #
+  #-------------------------------------------------------------------#
   output$plot_FWHM <- renderPlotly({
     if(is.null(RV$zz_rev)){
       return()
@@ -423,24 +433,24 @@ shinyServer(function(input, output) {
       plot_colors <- c("#619CFF", "#F8766D", "#00BA38")
       
       # Plot "Max Absorbance" data (blue circles) ------------------------------
-      hover_p1 <- paste("<b>Max Absorbance:</b> ", FWHM$uvvis_data$Abs_max, " a.u<br>", 
-                        "<b>Time:</b> ", FWHM$uvvis_data$Time, " min", sep="")
+      hover_p1 <- paste("<b>Max Absorbance:</b> ", FWHM$uvvis_data$Abs_max, "<br>", 
+                        "<b>Time:</b> ", FWHM$uvvis_data$Time, " ", RV$unities[1], sep="")
       p1 <- plot_ly(y=FWHM$uvvis_data$Abs_max, x=FWHM$uvvis_data$Time,
                     mode="lines", type="scatter",
                     hoverinfo="text", text=hover_p1,
                     line=list(color=plot_colors[1], width=2), showlegend=FALSE)
       
       # Add "Max Wavelength" curve
-      hover_p2 <- paste("<b>Max Wavelength:</b> ", FWHM$uvvis_data$Wl_max, " nm<br>", 
-                        "<b>Time:</b> ", FWHM$uvvis_data$Time, " min", sep="")
+      hover_p2 <- paste("<b>Max Wavelength:</b> ", FWHM$uvvis_data$Wl_max, " ", RV$unities[2], "<br>", 
+                        "<b>Time:</b> ", FWHM$uvvis_data$Time, " ", RV$unities[1], sep="")
       p2 <- plot_ly(y=FWHM$uvvis_data$Wl_max, x=FWHM$uvvis_data$Time,
                     mode="lines", type="scatter",
                     hoverinfo="text", text=hover_p2,
                     line=list(color=plot_colors[2], width=2), showlegend=FALSE)
       
       # Add "FWHM" curve
-      hover_p3 <- paste("<b>FWHM:</b> ", round(FWHM$uvvis_data$FWHM, 2), " nm<br>", 
-                        "<b>Time:</b> ", FWHM$uvvis_data$Time, " min", sep="")
+      hover_p3 <- paste("<b>FWHM:</b> ", round(FWHM$uvvis_data$FWHM, 2), " ", RV$unities[2], "<br>", 
+                        "<b>Time:</b> ", FWHM$uvvis_data$Time, " ", RV$unities[1], sep="")
       p3 <- plot_ly(y=FWHM$uvvis_data$FWHM, x=FWHM$uvvis_data$Time,
                     mode="lines", type="scatter",
                     hoverinfo="text", text=hover_p3,
@@ -448,12 +458,13 @@ shinyServer(function(input, output) {
       
       xrange <- c(min(RV$label_x), max(RV$label_x)+5)
       p_FWHM <- subplot(p1, p2, p3, nrows=3) %>%
-        layout(yaxis=list(title="Absorbance (a.u)"),
-               yaxis2=list(title="SPR peak (nm)"),
-               yaxis3=list(title="FWHM (nm)"),
+        layout(yaxis=list(title="Absorbance (a.u.)"),
+               yaxis2=list(title=paste("SPR peak (", RV$unities[2], ")", sep="")),
+               yaxis3=list(title=paste("FWHM (", RV$unities[2], ")", sep="")),
                xaxis=list(range=xrange),
                xaxis2=list(range=xrange),
-               xaxis3=list(title="Time (min)", range=xrange)
+               xaxis3=list(title=paste("Time (", RV$unities[1], ")", sep=""),
+                           range=xrange)
         )
                            
       p_FWHM
@@ -505,7 +516,8 @@ shinyServer(function(input, output) {
   output$plot_spectrum_2 <- renderPlotly({
     if(is.null(RV$zz_rev)){
       return()
-    } else {
+    }
+    if(!is.null(RV$zz_rev) | input$reloadBtnSpec > 0){  
       # Plot color scheme
       plot_colors  <- c("#619CFF", "#F8766D", "#00BA38")
       
@@ -523,31 +535,31 @@ shinyServer(function(input, output) {
       
       #------------------------------------
       # Plot first graph (on the LEFT)
-      hover_p_left <- paste("<b>Time:</b> ", FWHM$uvvis_data$Time, " min<br>",
-                            "<b>Max Absorbance:</b> ", FWHM$uvvis_data$Abs_max, " a.u<br>", 
-                            "<b>Max Wavelength:</b> ", FWHM$uvvis_data$Wl_max, " nm<br>",
-                            "<b>FWHM:</b> ", round(FWHM$uvvis_data$FWHM, 2), " nm", sep="")
+      hover_p_left <- paste("<b>Time:</b> ", FWHM$uvvis_data$Time, " ", RV$unities[1], "<br>",
+                            "<b>Max Absorbance:</b> ", FWHM$uvvis_data$Abs_max, "<br>", 
+                            "<b>Max Wavelength:</b> ", FWHM$uvvis_data$Wl_max, " ", RV$unities[2], "<br>",
+                            "<b>FWHM:</b> ", round(FWHM$uvvis_data$FWHM, 2), " ", RV$unities[2], "", sep="")
       p_left <- base %>%
         summarise(Time2=unique(Time), Abs_max2=unique(Abs_max)) %>%
         add_markers(x=~Abs_max2, y=~Time2, showlegend=FALSE,
                     hoverinfo="text", text=hover_p_left) %>%
-        layout(xaxis=list(title="Absorbance(a.u)"),
-               yaxis=list(title="Time (min)")
+        layout(xaxis=list(title="Absorbance (a.u.)"),
+               yaxis=list(title=paste("Time (", RV$unities[1], ")", sep=""))
         )
       p_left
       
       #------------------------------------
       # Plot first graph (on the RIGHT)
       #----------------------------------
-      hover_p_right <- paste("<b>Time:</b> ", ZZ_ALL$Time, " min<br>",
-                             "<b>Wavelength:</b> ", ZZ_ALL$wl, " a.u.<br>",
-                             "<b>Absorbance:</b> ", ZZ_ALL$absor, " nm", sep="")
+      hover_p_right <- paste("<b>Time:</b> ", ZZ_ALL$Time, " ", RV$unities[1], "<br>",
+                             "<b>Wavelength:</b> ", ZZ_ALL$wl, " ", RV$unities[2], "<br>",
+                             "<b>Absorbance:</b> ", ZZ_ALL$absor, sep="")
       p_right <- base %>%
         add_lines(x=~wl, y=~absor, alpha=0.3, type='scatter', xaxis="x", yaxis="y",
                   hoverinfo="text", text=hover_p_right,
                   showlegend=TRUE) %>%
-        layout(yaxis=list(title="Absorbance (a.u)"),
-               xaxis=list(title="Wavelength (nm)"))
+        layout(yaxis=list(title="Absorbance (a.u.)"),
+               xaxis=list(title=paste("Wavelength (", RV$unities[2], ")", sep="")))
       p_right
       
       #------------------
@@ -557,9 +569,10 @@ shinyServer(function(input, output) {
                          widths=c(0.2, 0.8)) %>%
         layout(dragmode="select", showlegend=TRUE,
                yaxis=list(title="Time"),
-               xaxis=list(title="Absorbance(a.u)"),
-               yaxis2=list(title="Absorbance(a.u)", side="right"),
-               xaxis2=list(title="Wavelength (nm)"))
+               xaxis=list(title="Absorbance (a.u.)"),
+               yaxis2=list(title="Absorbance (a.u.)", side="right"),
+               xaxis2=list(title=paste("Wavelength (", RV$unities[2], ")", sep=""))
+        )
       p_spec_mix <- highlight(p_joint, dynamic=FALSE, persistent=TRUE)
       p_spec_mix
       
