@@ -267,6 +267,9 @@ shinyUI(navbarPage(
                  div(id="down_button_spec",
                      downloadButton(outputId="downloadBtnSpec",
                                     label="Download Plot in html")),
+                 div(id="reload_button_spec",
+                     actionButton(inputId="reloadBtnSpec",
+                                    label="Reload Plot")),
                  withSpinner(color=plot_colors[1], color.background="white", type=3,
                              plotlyOutput(outputId="plot_spectrum_2", height="800px", width="auto")
                  )
