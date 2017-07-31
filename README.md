@@ -35,9 +35,9 @@ After start the application, you should see the following screen on your web bro
 
 Click in **About** tab to see an overview of the application, describing the way you should upload your UV-VIS data and the available interactive plots. For more detailed information and description of the tool using a real experiment, please check [Calderon-Jimenez et. al, 2017](https://www.google.com).
 
-In the following gif you will find some quick instructions to run *NanoUV-VIS* using an example data set. Also, you can click [here]() to watch a complete version of the instructional video.
+In the following gif you will find some quick instructions to run *NanoUV-VIS* using an example data set.
 
-[![gif](https://j.gifs.com/Bgw7No.gif)](https://www.youtube.com/watch?v=MXxKNJtJSqo)
+![](www/demo.gif)
 
 # Contributions
 Any suggestions or contributions to this project (comments, questions, typo corrections, etc.) are more than welcome! You can do it directly on this GitHub repository or mail to <gabriel.sarmanho@nist.gov> and <bryan.calderonjimenez@nist.gov>.
