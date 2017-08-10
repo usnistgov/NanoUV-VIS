@@ -208,7 +208,7 @@ shinyUI(navbarPage(
                      )
               ),
               column(width=4, 
-                     textInput(inputId="unit_z", value="a.u",
+                     textInput(inputId="unit_z", value="",
                                label=div(h5("Absorbance", helpPopup("Z-coord.")))
                      )
               )

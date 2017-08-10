@@ -264,18 +264,18 @@ shinyServer(function(input, output) {
     } else {
       tabelaUVVIS <- as.data.frame(FWHM$uvvis_data)
       names(tabelaUVVIS) <- c("Time(min)",
-                              "Abs.max(a.u)", "FWHM(nm)", "SPR.peak(nm)",
-                              "P3.absorbance(a.u)", "P3.wavelength(nm)", "HH(a.u)",
+                              "Abs.max", "FWHM(nm)", "SPR.peak(nm)",
+                              "P3.absorbance", "P3.wavelength(nm)", "HH",
                               "FWHM.L1(nm)", "FWHM.L2(nm)",
-                              "P1.absorbance(a.u)", "P1.wavelength(nm)",
-                              "P2.absorbance(a.u)", "P2.wavelength(nm)")
+                              "P1.absorbance", "P1.wavelength(nm)",
+                              "P2.absorbance", "P2.wavelength(nm)")
       DT::datatable(data=tabelaUVVIS, rownames=FALSE,
                     options=list(searching=TRUE, searchHighlight=TRUE,
                                  autoWidth=TRUE, paging=FALSE) ) %>%
         DT::formatRound(columns=c("FWHM(nm)",
-                                  "P3.absorbance(a.u)", "HH(a.u)",
+                                  "P3.absorbance", "HH",
                                   "FWHM.L1(nm)", "FWHM.L2(nm)",
-                                  "P1.absorbance(a.u)", "P2.absorbance(a.u)"),
+                                  "P1.absorbance", "P2.absorbance"),
                         digits=4)
                         
     }
@@ -287,11 +287,11 @@ shinyServer(function(input, output) {
     content = function(file) {
       tabelaUVVIS <- as.data.frame(FWHM$uvvis_data)
       names(tabelaUVVIS) <- c("Time(min)",
-                              "Abs.max(a.u)", "FWHM(nm)", "SPR.peak(a.u)",
-                              "Abs.min(a.u)", "SPR.min(a.u)", "Half.height(a.u)",
+                              "Abs.max", "FWHM(nm)", "SPR.peak",
+                              "Abs.min", "SPR.min", "Half.height",
                               "FWHM.L1(nm)", "FWHM.L2(nm)",
-                              "Abs.min.01(a.u)", "SPR.min.01(a.u)",
-                              "Abs.min.02(a.u)", "SPR.min.02(a.u)")
+                              "Abs.min.01", "SPR.min.01",
+                              "Abs.min.02", "SPR.min.02")
       write.csv(x=tabelaUVVIS, file, row.names=FALSE)
     }
   )
@@ -336,7 +336,7 @@ shinyServer(function(input, output) {
                         tickvals=which(rev(RV$label_y) %in% y_breaks)-1,
                         tickwidth=0.2, ticklen=2, tickangle=0,
                         titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE) 
-      z_axis <- list(title="Abs (a.u.)",
+      z_axis <- list(title="Abs",
                      titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE)
       scene_surface_invertXY <- list(xaxis=y_axis, yaxis=x_axis, zaxis=z_axis,
                                      camera=list(eye=list(x=-0.7, y=-2.5, z=0.1)))
@@ -458,7 +458,7 @@ shinyServer(function(input, output) {
       
       xrange <- c(min(RV$label_x), max(RV$label_x)+5)
       p_FWHM <- subplot(p1, p2, p3, nrows=3) %>%
-        layout(yaxis=list(title="Absorbance (a.u.)"),
+        layout(yaxis=list(title="Absorbance"),
                yaxis2=list(title=paste("SPR peak (", RV$unities[2], ")", sep="")),
                yaxis3=list(title=paste("FWHM (", RV$unities[2], ")", sep="")),
                xaxis=list(range=xrange),
@@ -543,7 +543,7 @@ shinyServer(function(input, output) {
         summarise(Time2=unique(Time), Abs_max2=unique(Abs_max)) %>%
         add_markers(x=~Abs_max2, y=~Time2, showlegend=FALSE,
                     hoverinfo="text", text=hover_p_left) %>%
-        layout(xaxis=list(title="Absorbance (a.u.)"),
+        layout(xaxis=list(title="Absorbance"),
                yaxis=list(title=paste("Time (", RV$unities[1], ")", sep=""))
         )
       p_left
@@ -558,7 +558,7 @@ shinyServer(function(input, output) {
         add_lines(x=~wl, y=~absor, alpha=0.3, type='scatter', xaxis="x", yaxis="y",
                   hoverinfo="text", text=hover_p_right,
                   showlegend=TRUE) %>%
-        layout(yaxis=list(title="Absorbance (a.u.)"),
+        layout(yaxis=list(title="Absorbance"),
                xaxis=list(title=paste("Wavelength (", RV$unities[2], ")", sep="")))
       p_right
       
@@ -569,8 +569,8 @@ shinyServer(function(input, output) {
                          widths=c(0.2, 0.8)) %>%
         layout(dragmode="select", showlegend=TRUE,
                yaxis=list(title="Time"),
-               xaxis=list(title="Absorbance (a.u.)"),
-               yaxis2=list(title="Absorbance (a.u.)", side="right"),
+               xaxis=list(title="Absorbance"),
+               yaxis2=list(title="Absorbance", side="right"),
                xaxis2=list(title=paste("Wavelength (", RV$unities[2], ")", sep=""))
         )
       p_spec_mix <- highlight(p_joint, dynamic=FALSE, persistent=TRUE)
