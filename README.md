@@ -43,4 +43,4 @@ In the following gif you will find some quick instructions to run *NanoUV-VIS* u
 Any suggestions or contributions to this project (comments, questions, typo corrections, etc.) are more than welcome! You can do it directly on this GitHub repository or mail to <gabriel.sarmanho@nist.gov> and <bryan.calderonjimenez@nist.gov>.
 
 # License and Disclaimer Statement
-This software was developed under [NIST](https://www.nist.gov/) license. Click [here](LICENSE.md) to read it and [here](DISCLAIMER.md) to access ths disclaimer statement.
+This software is in the public domain. Click [here](DISCLAIMER.md) to access the disclaimer statement.
