@@ -323,7 +323,7 @@ shinyServer(function(input, output) {
       marg <- list(t=65, pad=0) #b=87, l=68, r=28
       
       font_title  <- list(size=20, family="Arial", color="black")
-      font_labels <- list(size=11, family="Arial", color="grey")
+      font_labels <- list(size=11, family="Arial", color="black")
       font_ticks  <- list(size=11, family="Arial", color="black")
       
       x_breaks <- hist(RV$label_x, plot=FALSE)$breaks
@@ -392,7 +392,7 @@ shinyServer(function(input, output) {
       marg        <- list(b=87, l=68, t=65, r=28, pad=0)
       
       font_title  <- list(size=20, family="Arial", color="black")
-      font_labels <- list(size=16, family="Arial", color="grey")
+      font_labels <- list(size=16, family="Arial", color="black")
       font_ticks  <- list(size=16, family="Arial", color="black")
       
       x_breaks <- hist(RV$label_x, plot=FALSE)$breaks
