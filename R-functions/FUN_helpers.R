@@ -1,7 +1,13 @@
+#==============================================================================#
+# General Functions - css, html, etc. 
+#==============================================================================#
+
+#-------------------------------------------------------------------------------
 # Transform ".rmd" about data to ".md"
 about_file_rmd <- "ABOUT.Rmd"
 sapply(X=about_file_rmd, FUN=knitr::knit, quiet=TRUE)
 
+#-------------------------------------------------------------------------------
 # Create a little question mark link that shows a help popup on hover
 helpPopup <- function(content, title=NULL) {
   a(href = "#",
@@ -15,11 +21,14 @@ helpPopup <- function(content, title=NULL) {
   )
 }
 
+#-------------------------------------------------------------------------------
 # Create an upper red asterisk, indicating a mandatory input
 redAsterisk <- function(label) {
   tagList(label, span("*", class="mandatory_star"))
 }
 
+#-------------------------------------------------------------------------------
+# spinner for "load" plot status
 withBusyIndicatorUI <- function(button) {
   id <- button[['attribs']][['id']]
   div(
@@ -65,6 +74,7 @@ withBusyIndicatorServer <- function(buttonId, expr) {
   }, error = function(err) { errorFunc(err, buttonId) })
 }
 
+#-------------------------------------------------------------------------------
 # When an error happens after a button click, show the error
 errorFunc <- function(err, buttonId) {
   errEl      <- sprintf("[data-for-btn=%s] .btn-err", buttonId)
@@ -74,6 +84,8 @@ errorFunc <- function(err, buttonId) {
   shinyjs::show(selector = errEl, anim = TRUE, animType = "fade")
 }
 
+#-------------------------------------------------------------------------------
+# CSS codes
 appCSS <- "
 .btn-loading-container {
 margin-left: 10px;
@@ -87,5 +99,6 @@ margin-top: 10px;
 color: red;
 }
 "
-
-
+#==============================================================================#
+#================================== END =======================================#
+#==============================================================================#

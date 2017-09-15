@@ -1,5 +1,5 @@
 #==============================================================================#
-# Function: "plot_spec()" - create plot_ly graphs of spectrums #
+# Function: "plot_spec()" - create plot_ly graphs of spectrums
 #==============================================================================#
 
 ## Data to test
@@ -9,6 +9,7 @@
 #labY=label_y
 #labX=label_x[my_i]
 
+#-------------------------------------------------------------------------------
 plot_spec <- function(ZZ, UV, labX, labY, unX, unY){
   # inputs
   spec       <- ZZ
@@ -39,6 +40,12 @@ plot_spec <- function(ZZ, UV, labX, labY, unX, unY){
                        "<b>Absorbance:</b> ", max_y, sep="")
   hover_text3 <- paste("<b>FWHM:</b> ", round(FWHM, 2), " ", unY, sep="")
   
+  # Margins and fonts
+  marg <- list(b=87, l=68, t=65, r=28, pad=0)
+  font_title  <- list(size=20, family="Arial", color="black")
+  font_labels <- list(size=14, family="Arial", color="black")
+  font_ticks  <- list(size=14, family="Arial", color="black")
+  
   # Plot
   plot_ly(dados, x=~wl) %>%
     # Wavelength data
@@ -53,10 +60,19 @@ plot_spec <- function(ZZ, UV, labX, labY, unX, unY){
               y=rep(half_h, 100),
               mode="lines", line=list(color=plot_colors[3], width=4),
               hoverinfo="text", text=hover_text3, showlegend=FALSE) %>%
-    layout(title=paste("Time = ", labX, " (", unX, ")", sep=""),
-           showlegend=FALSE, yaxis=list(title=""), xaxis=list(title=""),
-           annotations=list(
-             list(xref="x", yref="y", 
+    layout(title       = paste("<b>Time", " = ", labX, " (", unX, ")</b>", sep=""),
+           titlefont   = font_title,
+           showlegend  = FALSE,
+           xaxis       = list(title=paste("Wavelength (", unY, ")", sep=""),
+                              titlefont=font_labels, tickfont=font_ticks,
+                              linewidth=1, showline=TRUE, showgrid=TRUE, showticklabels=TRUE,
+                              tickangle=0, tickwidth=1, ticklen=6, zeroline=FALSE),
+           yaxis       = list(title="Abs", titlefont=font_labels, tickfont=font_ticks,
+                              linewidth=1, showline=TRUE, showgrid=TRUE, showticklabels=TRUE,
+                              tickangle=0, tickwidth=1, ticklen=6, zeroline=FALSE),
+           margin      = marg,
+           annotations = list(
+             list(xref="x", yref="y",
                   x=intersec_x[2]*1.4, y=half_h, showarrow=FALSE, align="right",
                   text=hover_text3, font=list(size=15, color=plot_colors[3]),
                   showarrow=TRUE),
@@ -66,4 +82,6 @@ plot_spec <- function(ZZ, UV, labX, labY, unX, unY){
            )
     )
 }
-
+#==============================================================================#
+#================================== END =======================================#
+#==============================================================================#

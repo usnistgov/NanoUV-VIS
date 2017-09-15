@@ -312,32 +312,36 @@ shinyServer(function(input, output) {
       
       # Create matrix with showed names when click (hover)
       f_pasteXY <- function(x, y){
-        paste("Time: ", x, " ", RV$unities[1],
-              "<br>Wavelength: ", y, " ", RV$unities[2], sep="")
+        paste("<b>Time:<b> ", x, " ", RV$unities[1],
+              "<br>Wavelength:</b> ", y, " ", RV$unities[2], sep="")
       }
       hover_surface1 <- outer(RV$label_x, rev(RV$label_y), FUN=f_pasteXY)
       hover_surface2 <- paste("<br>Absorbance: ", t(RV$zz_rev), sep="")
-      hover_surface  <- matrix(paste(hover_surface1, hover_surface2, sep=""),
-                               ncol=length(RV$label_y))
-      
+      hover_surface  <- matrix(paste(hover_surface1, hover_surface2, sep=""), ncol=length(RV$label_y))
+
       # Scene parameters for all axis
-      font_labels <- list(size=10, family="Arial, sans-serif", color="grey")
-      font_ticks  <- list(size=11, family="Arial, sans-Old Standard TT, serif", color="black")
+      marg <- list(t=65, pad=0) #b=87, l=68, r=28
+      
+      font_title  <- list(size=20, family="Arial", color="black")
+      font_labels <- list(size=11, family="Arial", color="grey")
+      font_ticks  <- list(size=11, family="Arial", color="black")
+      
       x_breaks <- hist(RV$label_x, plot=FALSE)$breaks
       x_axis   <- list(title=paste("Time (", RV$unities[1], ")", sep=""),
                        tickmode="array", 
                        tickvals=c(0, which(RV$label_x %in% x_breaks)-1), 
                        ticktext=c(RV$label_x[1], RV$label_x[which(RV$label_x %in% x_breaks)]),
                        tickwidth=0.2, ticklen=10, tickangle=0, zeroline=FALSE,
-                       titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE) 
-      y_breaks <- hist(rev(RV$label_y), plot=FALSE)$breaks
-      y_axis    <- list(title=paste("Wavelenght (", RV$unities[2], ")", sep=""),
+                       titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE)
+      
+      y_breaks  <- hist(rev(RV$label_y), plot=FALSE)$breaks
+      y_axis    <- list(title=paste("Wavelength (", RV$unities[2], ")", sep=""),
                         tickmode="array", ticktext=y_breaks,
                         tickvals=which(rev(RV$label_y) %in% y_breaks)-1,
                         tickwidth=0.2, ticklen=2, tickangle=0,
                         titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE) 
-      z_axis <- list(title="Abs",
-                     titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE)
+      
+      z_axis <- list(title="Abs", titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE)
       scene_surface_invertXY <- list(xaxis=y_axis, yaxis=x_axis, zaxis=z_axis,
                                      camera=list(eye=list(x=-0.7, y=-2.5, z=0.1)))
       
@@ -347,8 +351,8 @@ shinyServer(function(input, output) {
                            hoverinfo="text", text=hover_surface,
                            #height="1000px", width="1000px",
                            showscale=TRUE, source="source_surface") %>%
-        layout(title="3D plot", scene=scene_surface_invertXY, autosize=TRUE,
-               showlegend=FALSE)
+        layout(title="<b>3D plot</b>", titlefont=font_title, margin=marg,
+               scene=scene_surface_invertXY, autosize=TRUE, showlegend=FALSE)
       p_surface
       
       Rplot$p_surface <- p_surface
@@ -385,8 +389,12 @@ shinyServer(function(input, output) {
                                ncol=length(RV$label_y))
       
       # axis parameters
-      font_labels <- list(size=13, family="Arial, sans-serif", color="grey")
-      font_ticks  <- list(size=13, family="Arial, sans-Old Standard TT, serif", color="black")
+      marg        <- list(b=87, l=68, t=65, r=28, pad=0)
+      
+      font_title  <- list(size=20, family="Arial", color="black")
+      font_labels <- list(size=16, family="Arial", color="grey")
+      font_ticks  <- list(size=16, family="Arial", color="black")
+      
       x_breaks <- hist(RV$label_x, plot=FALSE)$breaks
       x_axis   <- list(title=paste("Time (", RV$unities[1], ")", sep=""),
                        tickmode="array", 
@@ -394,8 +402,9 @@ shinyServer(function(input, output) {
                        ticktext=c(RV$label_x[1], RV$label_x[which(RV$label_x %in% x_breaks)]),
                        tickwidth=0.2, ticklen=10, tickangle=0, zeroline=FALSE,
                        titlefont=font_labels, tickfont=font_ticks, showgrid=TRUE) 
+      
       y_breaks <- hist(rev(RV$label_y), plot=FALSE)$breaks
-      y_axis   <- list(title=paste("Wavelenght (", RV$unities[2], ")", sep=""),
+      y_axis   <- list(title=paste("Wavelength (", RV$unities[2], ")", sep=""),
                        tickmode="array", ticktext=y_breaks,
                        tickvals=which(rev(RV$label_y) %in% y_breaks)-1,
                        tickwidth=0.2, ticklen=2, tickangle=0,
@@ -406,8 +415,8 @@ shinyServer(function(input, output) {
       p_contour  <- plot_ly(z=~Absorbance, type="contour", colors=plot_colors0,
                            hoverinfo="text", text=hover_surface,
                            showscale=TRUE, source="source_contour") %>% 
-        layout(title="Contour plot", xaxis=y_axis, yaxis=x_axis,
-               autosize=TRUE, showlegend=FALSE)
+        layout(title="<b>Contour plot</b>", titlefont=font_title, margin=marg,
+               xaxis=y_axis, yaxis=x_axis, autosize=TRUE, showlegend=FALSE)
       p_contour
       Rplot$p_contour <- p_contour
       
@@ -424,8 +433,8 @@ shinyServer(function(input, output) {
   )
   
   #----------------------------------------------------------------------------#
-  # TAB: "FWHM-Stats" (Line graphs of FWHM statistics on same x-axis) #
-  #-------------------------------------------------------------------#
+  # TAB: "Optical" (Line graphs of FWHM statistics on same x-axis) #
+  #----------------------------------------------------------------#
   output$plot_FWHM <- renderPlotly({
     if(is.null(RV$zz_rev)){
       return()
@@ -444,8 +453,7 @@ shinyServer(function(input, output) {
       hover_p2 <- paste("<b>Max Wavelength:</b> ", FWHM$uvvis_data$Wl_max, " ", RV$unities[2], "<br>", 
                         "<b>Time:</b> ", FWHM$uvvis_data$Time, " ", RV$unities[1], sep="")
       p2 <- plot_ly(y=FWHM$uvvis_data$Wl_max, x=FWHM$uvvis_data$Time,
-                    mode="lines", type="scatter",
-                    hoverinfo="text", text=hover_p2,
+                    mode="lines", type="scatter", hoverinfo="text", text=hover_p2,
                     line=list(color=plot_colors[2], width=2), showlegend=FALSE)
       
       # Add "FWHM" curve
@@ -456,15 +464,25 @@ shinyServer(function(input, output) {
                     hoverinfo="text", text=hover_p3,
                     line=list(color=plot_colors[3], width=2), showlegend=FALSE)
       
+      marg   <- list(b=87, l=68, t=65, r=28, pad=0)
       xrange <- c(min(RV$label_x), max(RV$label_x)+5)
+      font_title  <- list(size=20, family="Arial", color="black")
+      font_labels <- list(family="Arial", color="black")
+      font_ticks  <- list(family="Arial", color="black")
+      
       p_FWHM <- subplot(p1, p2, p3, nrows=3) %>%
-        layout(yaxis=list(title="Absorbance"),
-               yaxis2=list(title=paste("SPR peak (", RV$unities[2], ")", sep="")),
-               yaxis3=list(title=paste("FWHM (", RV$unities[2], ")", sep="")),
-               xaxis=list(range=xrange),
-               xaxis2=list(range=xrange),
-               xaxis3=list(title=paste("Time (", RV$unities[1], ")", sep=""),
-                           range=xrange)
+        layout(
+          title="<b>Optical Properties</b>", titlefont=font_title,
+          margin=marg,
+          yaxis=list(title="Absorbance"),
+          yaxis2=list(title=paste("SPR peak (", RV$unities[2], ")", sep=""),
+                      titlefont=font_labels, tickfont=font_ticks),
+          yaxis3=list(title=paste("FWHM (", RV$unities[2], ")", sep=""),
+                      titlefont=font_labels, tickfont=font_ticks),
+          xaxis=list(range=xrange, titlefont=font_labels, tickfont=font_ticks),
+          xaxis2=list(range=xrange, titlefont=font_labels, tickfont=font_ticks),
+          xaxis3=list(title=paste("Time (", RV$unities[1], ")", sep=""), range=xrange,
+                      titlefont=font_labels, tickfont=font_ticks)
         )
                            
       p_FWHM
@@ -533,8 +551,9 @@ shinyServer(function(input, output) {
       base <- plot_ly(sd, color=I(plot_colors[1])) %>%
         group_by(Time)
       
-      #------------------------------------
+      #--------------------------------
       # Plot first graph (on the LEFT)
+      #--------------------------------
       hover_p_left <- paste("<b>Time:</b> ", FWHM$uvvis_data$Time, " ", RV$unities[1], "<br>",
                             "<b>Max Absorbance:</b> ", FWHM$uvvis_data$Abs_max, "<br>", 
                             "<b>Max Wavelength:</b> ", FWHM$uvvis_data$Wl_max, " ", RV$unities[2], "<br>",
@@ -544,12 +563,14 @@ shinyServer(function(input, output) {
         add_markers(x=~Abs_max2, y=~Time2, showlegend=FALSE,
                     hoverinfo="text", text=hover_p_left) %>%
         layout(xaxis=list(title="Absorbance"),
-               yaxis=list(title=paste("Time (", RV$unities[1], ")", sep=""))
+               yaxis=list(title=paste("Time (", RV$unities[1], ")", sep=""),
+                          linewidth=1, showline=TRUE, showgrid=TRUE, showticklabels=TRUE,
+                          tickangle=0, tickwidth=1, ticklen=6, zeroline=FALSE)
         )
       p_left
       
-      #------------------------------------
-      # Plot first graph (on the RIGHT)
+      #----------------------------------
+      # Plot second graph (on the RIGHT)
       #----------------------------------
       hover_p_right <- paste("<b>Time:</b> ", ZZ_ALL$Time, " ", RV$unities[1], "<br>",
                              "<b>Wavelength:</b> ", ZZ_ALL$wl, " ", RV$unities[2], "<br>",
@@ -558,20 +579,40 @@ shinyServer(function(input, output) {
         add_lines(x=~wl, y=~absor, alpha=0.3, type='scatter', xaxis="x", yaxis="y",
                   hoverinfo="text", text=hover_p_right,
                   showlegend=TRUE) %>%
-        layout(yaxis=list(title="Absorbance"),
-               xaxis=list(title=paste("Wavelength (", RV$unities[2], ")", sep="")))
+        layout(xaxis=list(title=paste("Wavelength (", RV$unities[2], ")", sep=""),
+                          linewidth=1, showline=TRUE, showgrid=TRUE, showticklabels=TRUE,
+                          tickangle=0, tickwidth=1, ticklen=6, zeroline=FALSE),
+               yaxis=list(title="Absorbance", linewidth=1, showline=TRUE)
+        )
       p_right
       
       #------------------
       # Plot JOINT graph
       #------------------
+      marg <- list(b=87, l=68, t=65, r=28, pad=0)
+      
+      font_title  <- list(size=20, family="Arial", color="black")
+      font_labels <- list(family="Arial", color="black")
+      font_ticks  <- list(family="Arial", color="black")
+      
       p_joint <- subplot(p_left, p_right, titleX=TRUE, titleY=TRUE,
                          widths=c(0.2, 0.8)) %>%
-        layout(dragmode="select", showlegend=TRUE,
-               yaxis=list(title="Time"),
-               xaxis=list(title="Absorbance"),
-               yaxis2=list(title="Absorbance", side="right"),
-               xaxis2=list(title=paste("Wavelength (", RV$unities[2], ")", sep=""))
+        layout(title="<b>Mix Spectrum</b>",
+               titlefont=font_title,
+               margin=marg,
+               dragmode="select", showlegend=TRUE,
+               yaxis=list(title=paste("Time (", RV$unities[1], ")", sep=""),
+                          titlefont=font_labels, tickfont=font_ticks),
+               xaxis=list(title="Absorbance",
+                          linewidth=1, showline=TRUE, showgrid=TRUE, showticklabels=TRUE,
+                          tickangle=0, tickwidth=1, ticklen=6, zeroline=FALSE,
+                          titlefont=font_labels, tickfont=font_ticks),
+               yaxis2=list(title="Absorbance", side="right",
+                           linewidth=1, showline=TRUE, showgrid=TRUE, showticklabels=TRUE,
+                           tickangle=0, tickwidth=1, ticklen=6, zeroline=FALSE,
+                           titlefont=font_labels, tickfont=font_ticks),
+               xaxis2=list(title=paste("Wavelength (", RV$unities[2], ")", sep=""),
+                           titlefont=font_labels, tickfont=font_ticks)
         )
       p_spec_mix <- highlight(p_joint, dynamic=FALSE, persistent=TRUE)
       p_spec_mix
