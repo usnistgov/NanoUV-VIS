@@ -50,7 +50,7 @@ Two other plots are displayed by using the different variables estimated in the 
 
 Select the **<i class="fa fa-table"></i> Results** panel to see a table with numerical results provided by *NanoUV-VIS*. You will find the parameters evaluated for each UV-VIS spectrum, as shown is Figure 2 below:
 
-<center>![Figure 3. Graphical  representation of used points of spectrum data.](www/Fig-spectrumScheme.png)</center> 
+<center>![Figure 3. Graphical  representation of used points of spectrum data.](www/Fig_spectrum-scheme.png)</center> 
 <center>Figure 3. Graphical  representation of used points of spectrum data.</center> 
 
 In the results you can choose the number of columns to display, sort the data, and search a specific variable.

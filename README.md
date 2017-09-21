@@ -3,7 +3,7 @@
 > An interactive visualization tool for monitoring the evolution of optical properties of nanoparticles throughout synthesis reactions.
 
 <p align="center">
-<img src="www/plots.png" alt="Drawing" style="width:80%;"/>
+<img src="www/Fig_plots.png" alt="Drawing" style="width:80%;"/>
 </p>
 
 # Installation
