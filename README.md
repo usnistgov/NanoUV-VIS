@@ -33,7 +33,7 @@ After start the application, you should see the following screen on your web bro
 <img src="www/screenshot.png" alt="Drawing" style="width:80%;"/>
 </p>
 
-Click in **About** tab to see an overview of the application, describing the way you should upload your UV-VIS data and the available interactive plots. For more detailed information and description of the tool using a real experiment, please check [Calderon-Jimenez et. al, 2017](https://www.google.com).
+Click in **About** tab to see an overview of the application, describing the way you should upload your UV-VIS data and the available interactive plots. For more detailed information and description of the tool using a real experiment, please check [Calderon-Jimenez et. al, 2017](http://nvlpubs.nist.gov/nistpubs/jres/122/jres.122.037.pdf).
 
 In the following gif you will find some quick instructions to run *NanoUV-VIS* using an example data set.
 
