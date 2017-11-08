@@ -100,8 +100,8 @@ shinyServer(function(input, output) {
   
   # Reactive values for plots
   Rplot <- reactiveValues(
-    p_surface2 = NULL,
-    p_contour2 = NULL,
+    p_surface = NULL,
+    p_contour = NULL,
     p_FWHM     = NULL,
     p_spec_mix = NULL
   )
@@ -213,9 +213,13 @@ shinyServer(function(input, output) {
           my_i <- i
           plotname <- paste("plot", my_i, sep="")
           output[[plotname]] <- renderPlotly({
-            plot_spec(ZZ=RV$zz[, my_i], UV=FWHM$uvvis_data[my_i, ],
-                      labX=RV$label_x[my_i], labY=RV$label_y,
-                      unX=RV$unities[1], unY=RV$unities[2])
+            p <- plot_spec(ZZ=RV$zz[, my_i], UV=FWHM$uvvis_data[my_i, ],
+                           labX=RV$label_x[my_i], labY=RV$label_y,
+                           unX=RV$unities[1], unY=RV$unities[2])
+            
+            # Ignoring explicitly provided widget ID, since Shiny doesn't use them
+            p$elementId <- NULL
+            p
           })
         })
       }
@@ -353,8 +357,12 @@ shinyServer(function(input, output) {
                            showscale=TRUE, source="source_surface") %>%
         layout(title="<b>3D plot</b>", titlefont=font_title, margin=marg,
                scene=scene_surface_invertXY, autosize=TRUE, showlegend=FALSE)
+      
+      # Ignoring explicitly provided widget ID, since Shiny doesn't use them
+      p_surface$elementId <- NULL
       p_surface
       
+      # Save plot in a reactive object
       Rplot$p_surface <- p_surface
     }
   })
@@ -417,9 +425,13 @@ shinyServer(function(input, output) {
                            showscale=TRUE, source="source_contour") %>% 
         layout(title="<b>Contour plot</b>", titlefont=font_title, margin=marg,
                xaxis=y_axis, yaxis=x_axis, autosize=TRUE, showlegend=FALSE)
-      p_contour
-      Rplot$p_contour <- p_contour
       
+      # Ignoring explicitly provided widget ID, since Shiny doesn't use them
+      p_contour$elementId <- NULL
+      p_contour
+      
+      # Save plot in a reactive object
+      Rplot$p_contour <- p_contour
     }
   })
 
@@ -484,8 +496,12 @@ shinyServer(function(input, output) {
           xaxis3=list(title=paste("Time (", RV$unities[1], ")", sep=""), range=xrange,
                       titlefont=font_labels, tickfont=font_ticks)
         )
-                           
+      
+      # Ignoring explicitly provided widget ID, since Shiny doesn't use them
+      p_FWHM$elementId <- NULL
       p_FWHM
+      
+      # Save plot in a reactive object
       Rplot$p_FWHM <- p_FWHM
     }
   })
@@ -615,8 +631,12 @@ shinyServer(function(input, output) {
                            titlefont=font_labels, tickfont=font_ticks)
         )
       p_spec_mix <- highlight(p_joint, dynamic=FALSE, persistent=TRUE)
+      
+      # Ignoring explicitly provided widget ID, since Shiny doesn't use them
+      p_spec_mix$elementId <- NULL
       p_spec_mix
       
+      # Save plot in a reactive object
       Rplot$p_spec_mix <- p_spec_mix
     }
   })
