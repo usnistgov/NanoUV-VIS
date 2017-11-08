@@ -19,7 +19,7 @@ install.packages(c("shiny", "shinyjs", "knitr", "rmarkdown", "shinycssloaders", 
 After the local installation, you will be ready to run the application! Just type on R/RStudio console:
 
 ```r
-shiny::runGitHub("gfsarmanho/NanoUV-VIS")
+shiny::runGitHub("usnistgov/NanoUV-VIS")
 ```
 If there are no error messages, you are ready to enjoy *NanoUV-VIS*! 
 
